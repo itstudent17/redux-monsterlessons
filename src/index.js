@@ -15,7 +15,17 @@ function playlist(state = [], action) {
 const store = createStore(playlist);
 
 // console.log(store.getState());
-store.subscribe(() => console.log("subscribe", store.getState()));
+store.subscribe(() => {
+  const list = document.querySelector(".list");
+  const li = document.createElement("li");
+  li.textContent = store.getState().slice(-1)[0];
+  list.appendChild(li);
+});
 
-store.dispatch({ type: "ADD_TRACK", payload: "Smells like teen spirit" });
-store.dispatch({ type: "ADD_TRACK", payload: "Enter Sandman" });
+const addTrackBtn = document.querySelector(".addTrack");
+
+addTrackBtn.addEventListener("click", () => {
+  const trackName = document.querySelector(".trackInput").value;
+  store.dispatch({ type: "ADD_TRACK", payload: trackName });
+  document.querySelector(".trackInput").value = "";
+});
