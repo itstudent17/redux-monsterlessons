@@ -1,31 +1,27 @@
+import React from "react";
+import { render } from "react-dom";
+import { Provider } from "react-redux";
 import { createStore } from "redux";
+import App from "./App";
 
-// reducer
-function playlist(state = [], action) {
-  console.log(action);
+const initialState = ["Smells like teen spirit", "Enter Sandman"];
+
+const reducer = (state = initialState, action) => {
   switch (action.type) {
     case "ADD_TRACK":
       return [...state, action.payload];
+    default:
+      break;
   }
 
-  return state;
-}
+  return initialState;
+};
 
-// createStore from Redux
-const store = createStore(playlist);
+const store = createStore(reducer);
 
-// console.log(store.getState());
-store.subscribe(() => {
-  const list = document.querySelector(".list");
-  const li = document.createElement("li");
-  li.textContent = store.getState().slice(-1)[0];
-  list.appendChild(li);
-});
-
-const addTrackBtn = document.querySelector(".addTrack");
-
-addTrackBtn.addEventListener("click", () => {
-  const trackName = document.querySelector(".trackInput").value;
-  store.dispatch({ type: "ADD_TRACK", payload: trackName });
-  document.querySelector(".trackInput").value = "";
-});
+render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById("root")
+);
