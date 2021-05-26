@@ -1,8 +1,9 @@
 import React, { useRef } from "react";
 import { connect } from "react-redux";
 
-const App = ({ testState, onAddTrack }) => {
+const App = ({ tracks, onAddTrack, onFindTrack }) => {
   const trackInput = useRef();
+  const searchInput = useRef();
 
   const addTrack = () => {
     console.log("addTrack", trackInput.current.value);
@@ -10,15 +11,26 @@ const App = ({ testState, onAddTrack }) => {
     trackInput.current.value = "";
   };
 
-  console.log("props.testState", testState);
+  const findTrack = () => {
+    console.log("findTrack", searchInput.current.value);
+    onFindTrack(searchInput.current.value);
+  };
+
+  console.log("tracks", tracks);
 
   return (
     <div>
-      <input type="text" ref={trackInput} />
-      <button onClick={addTrack}>Add Track</button>
+      <div>
+        <input type="text" ref={trackInput} />
+        <button onClick={addTrack}>Add Track</button>
+      </div>
+      <div>
+        <input type="text" ref={searchInput} />
+        <button onClick={findTrack}>Find Track</button>
+      </div>
       <ul class="list">
-        {testState.tracks.map((track) => (
-          <li key={track}>{track}</li>
+        {tracks.map((track) => (
+          <li key={track.id}>{track.name}</li>
         ))}
       </ul>
     </div>
@@ -33,13 +45,23 @@ const App = ({ testState, onAddTrack }) => {
 // И свойства из первого возвращаемого объекта, и методы из второго возвращаемого объекта
 // доступны в самом компоненте в объекте props
 export default connect(
+  // mapStateToProps
   (state) => ({
-    // mapStateToProps
-    testState: state,
+    tracks: state.tracks.filter((track) =>
+      track.name.includes(state.filterTracks)
+    ),
   }),
+  // mapDispatchToProps
   (dispatch) => ({
-    onAddTrack: (trackName) => {
-      dispatch({ type: "ADD_TRACK", payload: trackName });
+    onAddTrack: (name) => {
+      const payload = {
+        id: Date.now().toString(),
+        name,
+      };
+      dispatch({ type: "ADD_TRACK", payload });
     },
-  }) // mapDispatchToProps
+    onFindTrack: (name) => {
+      dispatch({ type: "FIND_TRACK", payload: name });
+    },
+  })
 )(App);

@@ -1,4 +1,4 @@
-const initialState = ["Smells like teen spirit", "Enter sandman"];
+const initialState = [];
 
 export function trackReducer(state = initialState, action) {
   switch (action.type) {
