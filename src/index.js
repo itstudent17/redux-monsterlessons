@@ -3,23 +3,11 @@ import { render } from "react-dom";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 import App from "./App";
-
-const initialState = ["Smells like teen spirit", "Enter Sandman"];
-
-const reducer = (state = initialState, action) => {
-  switch (action.type) {
-    case "ADD_TRACK":
-      return [...state, action.payload];
-    default:
-      break;
-  }
-
-  return initialState;
-};
+import { rootReducer } from "./reducers";
 
 // Как только Redux инициализируется, срабатывает action @@INIT
 const store = createStore(
-  reducer,
+  rootReducer,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 

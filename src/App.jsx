@@ -17,7 +17,7 @@ const App = ({ testState, onAddTrack }) => {
       <input type="text" ref={trackInput} />
       <button onClick={addTrack}>Add Track</button>
       <ul class="list">
-        {testState.map((track) => (
+        {testState.tracks.map((track) => (
           <li key={track}>{track}</li>
         ))}
       </ul>
