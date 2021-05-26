@@ -17,7 +17,11 @@ const reducer = (state = initialState, action) => {
   return initialState;
 };
 
-const store = createStore(reducer);
+// Как только Redux инициализируется, срабатывает action @@INIT
+const store = createStore(
+  reducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 
 render(
   <Provider store={store}>
