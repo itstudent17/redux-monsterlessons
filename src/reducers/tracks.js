@@ -1,4 +1,9 @@
-const initialState = [];
+const initialState = [
+  {
+    id: 123,
+    name: "My super track",
+  },
+];
 
 export function trackReducer(state = initialState, action) {
   switch (action.type) {

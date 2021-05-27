@@ -1,8 +1,11 @@
 import React, { useRef } from "react";
 import { connect } from "react-redux";
 import { getTracks } from "./actions/tracks";
+import { Link } from "react-router";
 
-const App = ({ tracks, onAddTrack, onFindTrack, onGetTracks }) => {
+const App = ({ tracks, onAddTrack, onFindTrack, onGetTracks, ownProps }) => {
+  console.log("ownProps", ownProps);
+
   const trackInput = useRef();
   const searchInput = useRef();
 
@@ -34,7 +37,9 @@ const App = ({ tracks, onAddTrack, onFindTrack, onGetTracks }) => {
       </div>
       <ul className="list">
         {tracks.map((track) => (
-          <li key={track.id}>{track.name}</li>
+          <li key={track.id}>
+            <Link to={`{/tracks/${track.id}}`}>{track.name}</Link>
+          </li>
         ))}
       </ul>
     </div>
@@ -50,7 +55,7 @@ const App = ({ tracks, onAddTrack, onFindTrack, onGetTracks }) => {
 // доступны в самом компоненте в объекте props
 export default connect(
   // mapStateToProps
-  (state) => ({
+  (state, ownProps) => ({
     tracks: state.tracks.filter((track) =>
       track.name.includes(state.filterTracks)
     ),
