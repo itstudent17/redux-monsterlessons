@@ -1,7 +1,8 @@
 import React, { useRef } from "react";
 import { connect } from "react-redux";
+import { getTracks } from "./actions/tracks";
 
-const App = ({ tracks, onAddTrack, onFindTrack }) => {
+const App = ({ tracks, onAddTrack, onFindTrack, onGetTracks }) => {
   const trackInput = useRef();
   const searchInput = useRef();
 
@@ -28,7 +29,10 @@ const App = ({ tracks, onAddTrack, onFindTrack }) => {
         <input type="text" ref={searchInput} />
         <button onClick={findTrack}>Find Track</button>
       </div>
-      <ul class="list">
+      <div>
+        <button onClick={onGetTracks}>Get tracks</button>
+      </div>
+      <ul className="list">
         {tracks.map((track) => (
           <li key={track.id}>{track.name}</li>
         ))}
@@ -62,6 +66,9 @@ export default connect(
     },
     onFindTrack: (name) => {
       dispatch({ type: "FIND_TRACK", payload: name });
+    },
+    onGetTracks: () => {
+      dispatch(getTracks());
     },
   })
 )(App);
